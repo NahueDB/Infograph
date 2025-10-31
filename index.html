@@ -6,12 +6,45 @@
     <title>Infografía: Estrés y Rendimiento Académico</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+            background: white;
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
         }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(70, 100, 140, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(90, 120, 160, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        main {
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
         .chart-container {
             position: relative;
             width: 100%;
@@ -21,193 +54,414 @@
             height: 300px;
             max-height: 400px;
         }
+        
         @media (min-width: 768px) {
             .chart-container {
                 height: 350px;
             }
         }
+        
         .header-bg {
-            background-color: #003f5c;
+            background: linear-gradient(135deg, #2e547c 0%, #2c4c6d 50%, #2e547c 100%);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .header-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .header-bg::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(20px); }
+        }
+        
         .accent-bg {
-            background-color: #ff6361;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
-        .accent-text {
-            color: #ff6361;
-        }
+       
+        
         .card {
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            box-shadow: 
+                0 10px 30px -5px rgba(0, 0, 0, 0.1),
+                0 0 1px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 20px 40px -5px rgba(0, 0, 0, 0.15),
+                0 0 1px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+        
         .stat-number {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: #003f5c;
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Poppins', sans-serif;
+            animation: pulse 2s ease-in-out infinite;
         }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .stat-card {
+            position: relative;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 1rem;
+            padding: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-card:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+        }
+        
         .flow-step {
-            background-color: #f1f5f9;
-            border: 2px solid #003f5c;
-            color: #003f5c;
-            border-radius: 0.5rem;
-            padding: 1rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            color: #1e3c72;
+            border-radius: 1rem;
+            padding: 1.5rem;
             text-align: center;
             font-weight: 600;
             position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
+        
+        .flow-step:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
         .flow-arrow {
-            display: none;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            padding: 0.5rem;
         }
+        
+        @media (max-width: 767px) {
+            .flow-arrow {
+                transform: rotate(90deg);
+                font-size: 1.5rem;
+            }
+        }
+        
         @media (min-width: 768px) {
             .flow-arrow {
-                display: block;
-                font-size: 2rem;
-                color: #003f5c;
-                align-self: center;
-                padding-left: 1rem;
-                padding-right: 1rem;
+                font-size: 2.5rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
             }
+        }
+        
+        @keyframes slideRight {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+        
+        .solution-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+            backdrop-filter: blur(10px);
+            padding: 1.75rem;
+            border-radius: 1.25rem;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.3) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .solution-card:hover::before {
+            opacity: 1;
+        }
+        
+        .solution-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .solution-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .solution-card:hover .solution-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card {
+            animation: fadeInUp 0.6s ease-out;
         }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="text-gray-800 min-h-screen">
 
-    <header class="header-bg text-white p-8 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-2">Estrés vs. Rendimiento Académico</h1>
-        <p class="text-xl md:text-2xl font-light">Una investigación sobre la hipótesis: "A más estrés, peor rendimiento"</p>
+    <header class="header-bg text-white p-12 md:p-16 text-center relative z-10">
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 tracking-tight" style="text-shadow: 0 2px 20px rgba(0,0,0,0.3);">Estrés vs. Rendimiento Académico</h1>
+        <p class="text-xl italic md:text-2xl font-light opacity-80 max-w-4xl mx-auto">Una investigación sobre la hipótesis: "A más estrés, peor rendimiento"</p>
     </header>
 
     <main class="container mx-auto p-4 md:p-8 max-w-7xl">
 
-        <section class="card text-center">
-            <h2 class="text-3xl font-bold accent-text mb-4">El Problema en Cifras</h2>
-            <p class="text-lg mb-6">El estrés no es una excepción, es la norma. La presión académica moderna tiene un impacto medible en la gran mayoría de los estudiantes universitarios.</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
+        <section class="card overflow-hidden text-center">
+            <h2 class="text-4xl">📊 <strong class="text-4xl accent-text font-bold mb-6">El Problema en Cifras</strong> </h2>
+            <p class="text-lg mb-8 text-gray-700 max-w-3xl mx-auto leading-relaxed">El estrés no es una excepción, es la norma. La presión académica moderna tiene un impacto medible en la gran mayoría de los estudiantes universitarios.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="stat-card">
                     <div class="stat-number">75%</div>
-                    <div class="text-lg font-semibold text-gray-700">Reporta estrés significativo durante el semestre.</div>
+                    <div class="text-lg font-semibold text-gray-700 mt-3">Reporta estrés significativo durante el semestre.</div>
                 </div>
-                <div>
+                <div class="stat-card">
                     <div class="stat-number">45%</div>
-                    <div class="text-lg font-semibold text-gray-700">Afirma que su estrés ha impactado negativamente sus notas.</div>
+                    <div class="text-lg font-semibold text-gray-700 mt-3">Afirma que su estrés ha impactado negativamente sus notas.</div>
                 </div>
-                <div>
+                <div class="stat-card">
                     <div class="stat-number">60%</div>
-                    <div class="text-lg font-semibold text-gray-700">Reporta procrastinación frecuente debido al agobio.</div>
+                    <div class="text-lg font-semibold text-gray-700 mt-3">Reporta procrastinación frecuente debido al agobio.</div>
                 </div>
             </div>
         </section>
 
-        <section class="card">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">El Proceso del Estrés Académico</h2>
-            <p class="text-lg text-center mb-8">El estrés académico sigue un ciclo. Identificarlo es el primer paso para gestionarlo. Es un proceso que va desde la demanda externa hasta la consecuencia interna.</p>
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
-                <div class="flow-step md:col-span-1">Estresores<br>(Exámenes, Tareas)</div>
-                <div class="flow-arrow md:col-span-1">→</div>
-                <div class="flow-step md:col-span-1">Reacción Cognitiva<br>("No puedo hacerlo")</div>
-                <div class="flow-arrow md:col-span-1">→</div>
-                <div class="flow-step md:col-span-1">Consecuencias<br>(Ansiedad, Bloqueo)</div>
+        <section class="card overflow-hidden">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-6">🔄 El Proceso del Estrés Académico</h2>
+            <p class="text-lg text-center mb-10 text-gray-700 max-w-3xl mx-auto leading-relaxed">El estrés académico sigue un ciclo. Identificarlo es el primer paso para gestionarlo. Es un proceso que va desde la demanda externa hasta la consecuencia interna.</p>
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
+                <div class="flow-step flex-shrink-0" style="min-width: 200px;">📚 <br><strong>Estresores</strong><br><span class="text-sm">(Exámenes, Tareas)</span></div>
+                <div class="flow-arrow flex-shrink-0">→</div>
+                <div class="flow-step flex-shrink-0" style="min-width: 200px;">🧠 <br><strong>Reacción Cognitiva</strong><br><span class="text-sm">("No puedo hacerlo")</span></div>
+                <div class="flow-arrow flex-shrink-0">→</div>
+                <div class="flow-step flex-shrink-0" style="min-width: 200px;">😰 <br><strong>Consecuencias</strong><br><span class="text-sm">(Ansiedad, Bloqueo)</span></div>
             </div>
         </section>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <section class="card">
-                <h2 class="text-2xl font-bold text-center mb-4">Hipótesis: Correlación Estrés-Rendimiento</h2>
-                <p class="text-base text-gray-600 mb-4 text-center">Analizamos la relación entre el nivel de estrés percibido (medido en la escala PSS) y el promedio de calificaciones. Si la hipótesis es cierta, veremos una tendencia descendente.</p>
+            <section class="card overflow-hidden">
+                <h2 class="text-3xl font-bold text-center mb-4">📉 Hipótesis: Correlación Estrés-Rendimiento</h2>
+                <p class="text-base text-gray-600 mb-6 text-center leading-relaxed">Analizamos la relación entre el nivel de estrés percibido (medido en la escala PSS) y el promedio de calificaciones. Si la hipótesis es cierta, veremos una tendencia descendente.</p>
                 <div class="chart-container">
                     <canvas id="scatterPlot"></canvas>
                 </div>
             </section>
 
-            <section class="card">
-                <h2 class="text-2xl font-bold text-center mb-4">Principales Fuentes de Estrés (Distrés)</h2>
-                <p class="text-base text-gray-600 mb-4 text-center">No todo el estrés es igual. Identificamos las causas que los estudiantes más reportan como "abrumadoras" o fuentes de distrés.</p>
+            <section class="card overflow-hidden">
+                <h2 class="text-3xl font-bold text-center mb-4">⚡ Principales Fuentes de Estrés (Distrés)</h2>
+                <p class="text-base text-gray-600 mb-6 text-center leading-relaxed">No todo el estrés es igual. Identificamos las causas que los estudiantes más reportan como "abrumadoras" o fuentes de distrés.</p>
                 <div class="chart-container">
                     <canvas id="barChart"></canvas>
                 </div>
             </section>
         </div>
         
-        <section class="card md:col-span-2">
-            <h2 class="text-3xl font-bold text-center accent-text mb-4">Análisis Profundo: No Todo Estrés es Malo</h2>
-            <p class="text-lg text-center mb-6">La investigación muestra que la hipótesis "más estrés, peor rendimiento" es una simplificación. La relación sigue la <span class="font-bold">Curva de Yerkes-Dodson</span>: necesitamos un nivel *óptimo* de estrés (Eutrés) para estar motivados y rendir al máximo. El problema es el exceso (Distrés), que lleva al agotamiento y al bajo rendimiento.</p>
+        <section class="card overflow-hidden md:col-span-2">
+            <h2 class="text-4xl font-bold text-center accent-text mb-6">🎯 Análisis: No Todo Estrés es Malo</h2>
+            <p class="text-lg text-center mb-8 text-gray-700 max-w-4xl mx-auto leading-relaxed">La investigación muestra que la hipótesis "más estrés, peor rendimiento" es una simplificación. La relación sigue la <span class="font-bold" style="color: #667eea;">Curva de Yerkes-Dodson</span>: necesitamos un nivel *óptimo* de estrés (Eutrés) para estar motivados y rendir al máximo. El problema es el exceso (Distrés), que lleva al agotamiento y al bajo rendimiento.</p>
             <div class="chart-container" style="max-width: 800px; height: 400px;">
                 <canvas id="lineChart"></canvas>
             </div>
-            <div class="flex justify-around mt-4 text-center font-semibold">
-                <div class="text-blue-600">◀ Eutrés (Estrés Positivo)<br><span class="font-normal">Motivación, Enfoque, Energía</span></div>
-                <div class="text-red-600">Distrés (Estrés Negativo) ▶<br><span class="font-normal">Ansiedad, Bloqueo, Agotamiento</span></div>
+            <div class="flex flex-col md:flex-row justify-around mt-6 gap-4 text-center font-semibold">
+                <div class="p-4 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-300">
+                    <span class="text-2xl">✅</span>
+                    <div class="text-blue-700 text-lg mt-2">Eutrés (Estrés Positivo)</div>
+                    <div class="font-normal text-blue-600 text-sm mt-1">Motivación, Enfoque, Energía</div>
+                </div>
+                <div class="p-4 rounded-lg bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300">
+                    <span class="text-2xl">⚠️</span>
+                    <div class="text-red-700 text-lg mt-2">Distrés (Estrés Negativo)</div>
+                    <div class="font-normal text-red-600 text-sm mt-1">Ansiedad, Bloqueo, Agotamiento</div>
+                </div>
             </div>
         </section>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <section class="card">
-                <h2 class="text-2xl font-bold text-center mb-4">Impacto en Hábitos de Sueño</h2>
-                <p class="text-base text-gray-600 mb-4 text-center">El distrés crónico afecta directamente los patrones de sueño, vitales para la consolidación del aprendizaje.</p>
+            <section class="card overflow-hidden">
+                <h2 class="text-2xl font-bold text-center mb-4">😴 Impacto en Hábitos de Sueño</h2>
+                <p class="text-base text-gray-600 mb-6 text-center leading-relaxed">El distrés crónico afecta directamente los patrones de sueño, vitales para la consolidación del aprendizaje.</p>
                 <div class="chart-container" style="height: 250px;">
                     <canvas id="donutSleep"></canvas>
                 </div>
             </section>
 
-            <section class="card">
-                <h2 class="text-2xl font-bold text-center mb-4">Impacto en Salud Mental</h2>
-                <p class="text-base text-gray-600 mb-4 text-center">El estrés es un factor de riesgo clave para el desarrollo de ansiedad y otros problemas de salud mental.</p>
+            <section class="card overflow-hidden">
+                <h2 class="text-2xl font-bold text-center mb-4">🧠 Impacto en Salud Mental</h2>
+                <p class="text-base text-gray-600 mb-6 text-center leading-relaxed">El estrés es un factor de riesgo clave para el desarrollo de ansiedad y otros problemas de salud mental.</p>
                 <div class="chart-container" style="height: 250px;">
                     <canvas id="donutMental"></canvas>
                 </div>
             </section>
 
-            <section class="card">
-                <h2 class="text-2xl font-bold text-center mb-4">Impacto en Asistencia</h2>
-                <p class="text-base text-gray-600 mb-4 text-center">El "burnout" estudiantil a menudo se manifiesta como ausentismo, creando un ciclo de mayor retraso y estrés.</p>
+            <section class="card overflow-hidden">
+                <h2 class="text-2xl font-bold text-center mb-4">📅 Impacto en Asistencia</h2>
+                <p class="text-base text-gray-600 mb-6 text-center leading-relaxed">El "burnout" estudiantil a menudo se manifiesta como ausentismo, creando un ciclo de mayor retraso y estrés.</p>
                 <div class="chart-container" style="height: 250px;">
                     <canvas id="donutAttendance"></canvas>
                 </div>
             </section>
         </div>
 
-        <section class="card">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Estrategias de Afrontamiento y Soluciones</h2>
-            <p class="text-lg text-center mb-8">Validar la hipótesis del impacto negativo del distrés nos obliga a proponer soluciones. La gestión del estrés es una habilidad académica tan importante como estudiar.</p>
+        <section class="card overflow-hidden">
+            <h2 class="text-4xl font-bold text-center text-gray-800 mb-6">💡 Estrategias de Afrontamiento y Soluciones</h2>
+            <p class="text-lg text-center mb-10 text-gray-700 max-w-4xl mx-auto leading-relaxed">Validar la hipótesis del impacto negativo del distrés nos obliga a proponer soluciones. La gestión del estrés es una habilidad académica tan importante como estudiar.</p>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="bg-gray-100 p-6 rounded-lg text-center shadow-sm border-l-4 border-blue-500">
-                    <div class="text-4xl mb-3">🗓️</div>
-                    <h3 class="text-xl font-bold mb-2">Gestión del Tiempo</h3>
-                    <p class="text-gray-700">Técnicas como Pomodoro, matrices de Eisenhower y la planificación realista reducen la sensación de agobio.</p>
+                <div class="solution-card" style="border-left-color: #667eea;">
+                    <div class="solution-icon">🗓️</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Gestión del Tiempo</h3>
+                    <p class="text-gray-700 leading-relaxed">Técnicas como Pomodoro, matrices de Eisenhower y la planificación realista reducen la sensación de agobio.</p>
                 </div>
-                <div class="bg-gray-100 p-6 rounded-lg text-center shadow-sm border-l-4 border-green-500">
-                    <div class="text-4xl mb-3">🧘</div>
-                    <h3 class="text-xl font-bold mb-2">Mindfulness y Pausas</h3>
-                    <p class="text-gray-700">La meditación y las pausas activas han demostrado reducir el cortisol y mejorar la concentración.</p>
+                <div class="solution-card" style="border-left-color: #10b981;">
+                    <div class="solution-icon">🧘</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Mindfulness y Pausas</h3>
+                    <p class="text-gray-700 leading-relaxed">La meditación y las pausas activas han demostrado reducir el cortisol y mejorar la concentración.</p>
                 </div>
-                <div class="bg-gray-100 p-6 rounded-lg text-center shadow-sm border-l-4 border-yellow-500">
-                    <div class="text-4xl mb-3">🏃</div>
-                    <h3 class="text-xl font-bold mb-2">Salud Física</h3>
-                    <p class="text-gray-700">El ejercicio regular, una dieta balanceada y, sobre todo, dormir lo suficiente son pilares fundamentales.</p>
+                <div class="solution-card" style="border-left-color: #f59e0b;">
+                    <div class="solution-icon">🏃</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Salud Física</h3>
+                    <p class="text-gray-700 leading-relaxed">El ejercicio regular, una dieta balanceada y, sobre todo, dormir lo suficiente son pilares fundamentales.</p>
                 </div>
-                <div class="bg-gray-100 p-6 rounded-lg text-center shadow-sm border-l-4 border-red-500">
-                    <div class="text-4xl mb-3">🤝</div>
-                    <h3 class="text-xl font-bold mb-2">Buscar Ayuda</h3>
-                    <p class="text-gray-700">Hablar con compañeros, profesores o servicios de psicología de la universidad rompe el aislamiento.</p>
+                <div class="solution-card" style="border-left-color: #ef4444;">
+                    <div class="solution-icon">🤝</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Buscar Ayuda</h3>
+                    <p class="text-gray-700 leading-relaxed">Hablar con compañeros, profesores o servicios de psicología de la universidad rompe el aislamiento.</p>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="header-bg text-white p-8 text-center mt-8">
-        <h2 class="text-2xl font-bold mb-2">Conclusión de la Investigación</h2>
-        <p class="text-lg max-w-3xl mx-auto">La hipótesis inicial se valida, pero con matices. El <span class="font-bold accent-text">distrés</span> (estrés excesivo) sí tiene una correlación negativa fuerte con el rendimiento. Sin embargo, el <span class="font-bold text-blue-300">eutrés</span> (estrés óptimo) es un factor necesario para la motivación y el éxito. El objetivo no es eliminar el estrés, sino aprender a gestionarlo para mantenerlo en la zona de rendimiento óptimo.</p>
+    <footer class="text-white p-12 text-center mt-12 relative z-10">
+        <h2 class="text-3xl font-bold mb-4">Conclusión de la Investigación ✨</h2>
+        <p class="text-lg max-w-4xl mx-auto leading-relaxed opacity-95">La hipótesis inicial se valida, pero con matices. El <span class="font-bold" style="color: #f093fb;">distrés</span> (estrés excesivo) sí tiene una correlación negativa fuerte con el rendimiento. Sin embargo, el <span class="font-bold" style="color: #4ECDC4;">eutrés</span> (estrés óptimo) es un factor necesario para la motivación y el éxito. El objetivo no es eliminar el estrés, sino aprender a gestionarlo para mantenerlo en la zona de rendimiento óptimo.</p>
+        <div class="mt-8 opacity-75 text-sm">
+            <p>📊 Infografía creada para investigación académica | 2025</p>
+        </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             
-            const brilliantBlues = ['#003f5c', '#58508d', '#bc5090', '#ff6361', '#ffa600'];
-            const stressAccent = '#ff6361';
-            const performanceAccent = '#003f5c';
+            const brilliantBlues = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#ffa600'];
+            const stressAccent = '#f5576c';
+            const performanceAccent = '#667eea';
             const optimalAccent = '#4ECDC4';
 
             const tooltipTitleCallback = {
@@ -260,7 +514,11 @@
                             {x: 33, y: 5.5}, {x: 35, y: 5.0}, {x: 36, y: 4.5}, {x: 38, y: 4.0}, {x: 40, y: 3.5},
                             {x: 13, y: 8.0}, {x: 19, y: 7.5}, {x: 26, y: 6.5}, {x: 31, y: 7.2}, {x: 37, y: 5.2},
                         ],
-                        backgroundColor: 'rgba(255, 99, 97, 0.6)'
+                        backgroundColor: 'rgba(245, 87, 108, 0.7)',
+                        borderColor: 'rgba(245, 87, 108, 1)',
+                        borderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
                     }]
                 };
                 new Chart(document.getElementById('scatterPlot'), {
@@ -269,12 +527,32 @@
                     options: {
                         maintainAspectRatio: false,
                         ...tooltipTitleCallback,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            ...tooltipTitleCallback.plugins
+                        },
                         scales: {
                             x: {
-                                title: { display: true, text: 'Nivel de Estrés Percibido (Escala PSS)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Nivel de Estrés Percibido (Escala PSS)',
+                                    font: { size: 13, weight: '600' }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
                             },
                             y: {
-                                title: { display: true, text: 'Promedio de Calificaciones (0-10)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Promedio de Calificaciones (0-10)',
+                                    font: { size: 13, weight: '600' }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
                             }
                         }
                     }
@@ -288,9 +566,22 @@
                     datasets: [{
                         label: '% de Estudiantes (Alto Estrés)',
                         data: [82, 75, 60, 45, 30],
-                        backgroundColor: [brilliantBlues[4], brilliantBlues[3], brilliantBlues[2], brilliantBlues[1], brilliantBlues[0]],
-                        borderColor: '#ffffff',
-                        borderWidth: 1
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(118, 75, 162, 0.8)',
+                            'rgba(240, 147, 251, 0.8)',
+                            'rgba(245, 87, 108, 0.8)',
+                            'rgba(255, 166, 0, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(118, 75, 162, 1)',
+                            'rgba(240, 147, 251, 1)',
+                            'rgba(245, 87, 108, 1)',
+                            'rgba(255, 166, 0, 1)'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8
                     }]
                 };
                 new Chart(document.getElementById('barChart'), {
@@ -306,7 +597,15 @@
                         },
                         scales: {
                             x: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                }
                             }
                         }
                     }
@@ -320,11 +619,14 @@
                         label: 'Nivel de Rendimiento',
                         data: [30, 85, 90, 60, 20],
                         borderColor: performanceAccent,
-                        backgroundColor: 'rgba(0, 63, 92, 0.1)',
+                        backgroundColor: 'rgba(102, 126, 234, 0.15)',
                         fill: true,
                         tension: 0.4,
                         pointBackgroundColor: stressAccent,
-                        pointRadius: 5
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 3,
+                        pointRadius: 7,
+                        pointHoverRadius: 10
                     }]
                 };
                 new Chart(document.getElementById('lineChart'), {
@@ -339,12 +641,26 @@
                         },
                         scales: {
                             y: {
-                                title: { display: true, text: 'Rendimiento / Desempeño' },
+                                title: { 
+                                    display: true, 
+                                    text: 'Rendimiento / Desempeño',
+                                    font: { size: 13, weight: '600' }
+                                },
                                 min: 0,
-                                max: 100
+                                max: 100,
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
                             },
                             x: {
-                                title: { display: true, text: 'Nivel de Estrés / Activación' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Nivel de Estrés / Activación',
+                                    font: { size: 13, weight: '600' }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
                             }
                         }
                     }
@@ -358,7 +674,13 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { boxWidth: 12, padding: 15 }
+                        labels: { 
+                            boxWidth: 15, 
+                            padding: 15,
+                            font: { size: 12, weight: '500' },
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
                     },
                     ...tooltipTitleCallback.plugins
                 }
@@ -371,7 +693,13 @@
                         labels: ['Mal Sueño', 'Sueño Regular', 'Buen Sueño'],
                         datasets: [{
                             data: [48, 30, 22],
-                            backgroundColor: [brilliantBlues[3], brilliantBlues[1], brilliantBlues[0]]
+                            backgroundColor: [
+                                'rgba(245, 87, 108, 0.8)',
+                                'rgba(240, 147, 251, 0.8)',
+                                'rgba(102, 126, 234, 0.8)'
+                            ],
+                            borderColor: '#fff',
+                            borderWidth: 3
                         }]
                     },
                     options: donutOptions
@@ -385,7 +713,13 @@
                         labels: ['Reporta Ansiedad', 'Reporta Depresión', 'Sin Síntomas'],
                         datasets: [{
                             data: [55, 20, 25],
-                            backgroundColor: [brilliantBlues[4], brilliantBlues[2], brilliantBlues[0]]
+                            backgroundColor: [
+                                'rgba(255, 166, 0, 0.8)',
+                                'rgba(118, 75, 162, 0.8)',
+                                'rgba(102, 126, 234, 0.8)'
+                            ],
+                            borderColor: '#fff',
+                            borderWidth: 3
                         }]
                     },
                     options: donutOptions
@@ -399,7 +733,13 @@
                         labels: ['Falta Frecuentemente', 'Falta Ocasionalmente', 'Asistencia Completa'],
                         datasets: [{
                             data: [28, 40, 32],
-                            backgroundColor: [brilliantBlues[3], brilliantBlues[1], brilliantBlues[0]]
+                            backgroundColor: [
+                                'rgba(245, 87, 108, 0.8)',
+                                'rgba(240, 147, 251, 0.8)',
+                                'rgba(102, 126, 234, 0.8)'
+                            ],
+                            borderColor: '#fff',
+                            borderWidth: 3
                         }]
                     },
                     options: donutOptions
