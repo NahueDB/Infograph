@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Estrés y Rendimiento Académico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .header-bg {
+            background-color: #003f5c;
+        }
+        .accent-bg {
+            background-color: #ff6361;
+        }
+        .accent-text {
+            color: #ff6361;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #003f5c;
+        }
+        .flow-step {
+            background-color: #f1f5f9;
+            border: 2px solid #003f5c;
+            color: #003f5c;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+        }
+        .flow-arrow {
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .flow-arrow {
+                display: block;
+                font-size: 2rem;
+                color: #003f5c;
+                align-self: center;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="header-bg text-white p-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-2">Estrés vs. Rendimiento Académico</h1>
+        <p class="text-xl md:text-2xl font-light">Una investigación sobre la hipótesis: "A más estrés, peor rendimiento"</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <section class="card text-center">
+            <h2 class="text-3xl font-bold accent-text mb-4">El Problema en Cifras</h2>
+            <p class="text-lg mb-6">El estrés no es una excepción, es la norma. La presión académica moderna tiene un impacto medible en la gran mayoría de los estudiantes universitarios.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <div class="stat-number">75%</div>
+                    <div class="text-lg font-semibold text-gray-700">Reporta estrés significativo durante el semestre.</div>
+                </div>
+                <div>
+                    <div class="stat-number">45%</div>
+                    <div class="text-lg font-semibold text-gray-700">Afirma que su estrés ha impactado negativamente sus notas.</div>
+                </div>
+                <div>
+                    <div class="stat-number">60%</div>
+                    <div class="text-lg font-semibold text-gray-700">Reporta procrastinación frecuente debido al agobio.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">El Proceso del Estrés Académico</h2>
+            <p class="text-lg text-center mb-8">El estrés académico sigue un ciclo. Identificarlo es el primer paso para gestionarlo. Es un proceso que va desde la demanda externa hasta la consecuencia interna.</p>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                <div class="flow-step md:col-span-1">Estresores<br>(Exámenes, Tareas)</div>
+                <div class="flow-arrow md:col-span-1">→</div>
+                <div class="flow-step md:col-span-1">Reacción Cognitiva<br>("No puedo hacerlo")</div>
+                <div class="flow-arrow md:col-span-1">→</div>
+                <div class="flow-step md:col-span-1">Consecuencias<br>(Ansiedad, Bloqueo)</div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">Hipótesis: Correlación Estrés-Rendimiento</h2>
+                <p class="text-base text-gray-600 mb-4 text-center">Analizamos la relación entre el nivel de estrés percibido (medido en la escala PSS) y el promedio de calificaciones. Si la hipótesis es cierta, veremos una tendencia descendente.</p>
+                <div class="chart-container">
+                    <canvas id="scatterPlot"></canvas>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">Principales Fuentes de Estrés (Distrés)</h2>
+                <p class="text-base text-gray-600 mb-4 text-center">No todo el estrés es igual. Identificamos las causas que los estudiantes más reportan como "abrumadoras" o fuentes de distrés.</p>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </section>
+        </div>
+        
+        <section class="card md:col-span-2">
+            <h2 class="text-3xl font-bold text-center accent-text mb-4">Análisis Profundo: No Todo Estrés es Malo</h2>
+            <p class="text-lg text-center mb-6">La investigación muestra que la hipótesis "más estrés, peor rendimiento" es una simplificación. La relación sigue la <span class="font-bold">Curva de Yerkes-Dodson</span>: necesitamos un nivel *óptimo* de estrés (Eutrés) para estar motivados y rendir al máximo. El problema es el exceso (Distrés), que lleva al agotamiento y al bajo rendimiento.</p>
+            <div class="chart-container" style="max-width: 800px; height: 400px;">
+                <canvas id="lineChart"></canvas>
+            </div>
+            <div class="flex justify-around mt-4 text-center font-semibold">
+                <div class="text-blue-600">◀ Eutrés (Estrés Positivo)<br><span class="font-normal">Motivación, Enfoque, Energía</span></div>
+                <div class="text-red-600">Distrés (Estrés Negativo) ▶<br><span class="font-normal">Ansiedad, Bloqueo, Agotamiento</span></div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <section class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">Impacto en Hábitos de Sueño</h2>
+                <p class="text-base text-gray-600 mb-4 text-center">El distrés crónico afecta directamente los patrones de sueño, vitales para la consolidación del aprendizaje.</p>
+                <div class="chart-container" style="height: 250px;">
+                    <canvas id="donutSleep"></canvas>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">Impacto en Salud Mental</h2>
+                <p class="text-base text-gray-600 mb-4 text-center">El estrés es un factor de riesgo clave para el desarrollo de ansiedad y otros problemas de salud mental.</p>
+                <div class="chart-container" style="height: 250px;">
+                    <canvas id="donutMental"></canvas>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 class="text-2xl font-bold text-center mb-4">Impacto en Asistencia</h2>
+                <p class="text-base text-gray-600 mb-4 text-center">El "burnout" estudiantil a menudo se manifiesta como ausentismo, creando un ciclo de mayor retraso y estrés.</p>
+                <div class="chart-container" style="height: 250px;">
+                    <canvas id="donutAttendance"></canvas>
+                </div>
+            </section>
+        </div>
+
+        <section class="card">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Estrategias de Afrontamiento y Soluciones</h2>
+            <p class="text-lg text-center mb-8">Validar la hipótesis del impacto negativo del distrés nos obliga a proponer soluciones. La gestión del estrés es una habilidad académica tan importante como estudiar.</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-gray-100 p-6 rounded-lg text-center shadow-sm border-l-4 border-blue-500">
+                    <div class="text-4xl mb-3">🗓️</div>
+                    <h3 class="text-xl font-bold mb-2">Gestión del Tiempo</h3>
+                    <p class="text-gray-700">Técnicas como Pomodoro, matrices de Eisenhower y la planificación realista reducen la sensación de agobio.</p>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg text-center shadow-sm border-l-4 border-green-500">
+                    <div class="text-4xl mb-3">🧘</div>
+                    <h3 class="text-xl font-bold mb-2">Mindfulness y Pausas</h3>
+                    <p class="text-gray-700">La meditación y las pausas activas han demostrado reducir el cortisol y mejorar la concentración.</p>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg text-center shadow-sm border-l-4 border-yellow-500">
+                    <div class="text-4xl mb-3">🏃</div>
+                    <h3 class="text-xl font-bold mb-2">Salud Física</h3>
+                    <p class="text-gray-700">El ejercicio regular, una dieta balanceada y, sobre todo, dormir lo suficiente son pilares fundamentales.</p>
+                </div>
+                <div class="bg-gray-100 p-6 rounded-lg text-center shadow-sm border-l-4 border-red-500">
+                    <div class="text-4xl mb-3">🤝</div>
+                    <h3 class="text-xl font-bold mb-2">Buscar Ayuda</h3>
+                    <p class="text-gray-700">Hablar con compañeros, profesores o servicios de psicología de la universidad rompe el aislamiento.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="header-bg text-white p-8 text-center mt-8">
+        <h2 class="text-2xl font-bold mb-2">Conclusión de la Investigación</h2>
+        <p class="text-lg max-w-3xl mx-auto">La hipótesis inicial se valida, pero con matices. El <span class="font-bold accent-text">distrés</span> (estrés excesivo) sí tiene una correlación negativa fuerte con el rendimiento. Sin embargo, el <span class="font-bold text-blue-300">eutrés</span> (estrés óptimo) es un factor necesario para la motivación y el éxito. El objetivo no es eliminar el estrés, sino aprender a gestionarlo para mantenerlo en la zona de rendimiento óptimo.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const brilliantBlues = ['#003f5c', '#58508d', '#bc5090', '#ff6361', '#ffa600'];
+            const stressAccent = '#ff6361';
+            const performanceAccent = '#003f5c';
+            const optimalAccent = '#4ECDC4';
+
+            const tooltipTitleCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            function processLabels(labels) {
+                const maxLen = 16;
+                return labels.map(label => {
+                    if (typeof label === 'string' && label.length > maxLen) {
+                        let words = label.split(' ');
+                        let lines = [];
+                        let currentLine = '';
+                        words.forEach(word => {
+                            if ((currentLine + word).length > maxLen) {
+                                lines.push(currentLine.trim());
+                                currentLine = word + ' ';
+                            } else {
+                                currentLine += word + ' ';
+                            }
+                        });
+                        lines.push(currentLine.trim());
+                        return lines;
+                    }
+                    return label;
+                });
+            }
+
+            if (document.getElementById('scatterPlot')) {
+                const scatterData = {
+                    datasets: [{
+                        label: 'Estudiante',
+                        data: [
+                            {x: 10, y: 9.5}, {x: 12, y: 9.0}, {x: 15, y: 8.8}, {x: 18, y: 9.2}, {x: 20, y: 8.5},
+                            {x: 22, y: 8.0}, {x: 25, y: 7.5}, {x: 28, y: 7.0}, {x: 30, y: 6.5}, {x: 32, y: 6.0},
+                            {x: 33, y: 5.5}, {x: 35, y: 5.0}, {x: 36, y: 4.5}, {x: 38, y: 4.0}, {x: 40, y: 3.5},
+                            {x: 13, y: 8.0}, {x: 19, y: 7.5}, {x: 26, y: 6.5}, {x: 31, y: 7.2}, {x: 37, y: 5.2},
+                        ],
+                        backgroundColor: 'rgba(255, 99, 97, 0.6)'
+                    }]
+                };
+                new Chart(document.getElementById('scatterPlot'), {
+                    type: 'scatter',
+                    data: scatterData,
+                    options: {
+                        maintainAspectRatio: false,
+                        ...tooltipTitleCallback,
+                        scales: {
+                            x: {
+                                title: { display: true, text: 'Nivel de Estrés Percibido (Escala PSS)' }
+                            },
+                            y: {
+                                title: { display: true, text: 'Promedio de Calificaciones (0-10)' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            if (document.getElementById('barChart')) {
+                const barLabels = processLabels(['Exámenes Finales', 'Carga de Tareas', 'Futuro Laboral', 'Presión Social', 'Problemas Personales']);
+                const barData = {
+                    labels: barLabels,
+                    datasets: [{
+                        label: '% de Estudiantes (Alto Estrés)',
+                        data: [82, 75, 60, 45, 30],
+                        backgroundColor: [brilliantBlues[4], brilliantBlues[3], brilliantBlues[2], brilliantBlues[1], brilliantBlues[0]],
+                        borderColor: '#ffffff',
+                        borderWidth: 1
+                    }]
+                };
+                new Chart(document.getElementById('barChart'), {
+                    type: 'bar',
+                    data: barData,
+                    options: {
+                        indexAxis: 'y',
+                        maintainAspectRatio: false,
+                        ...tooltipTitleCallback,
+                        plugins: {
+                            legend: { display: false },
+                            ...tooltipTitleCallback.plugins
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            if (document.getElementById('lineChart')) {
+                const lineData = {
+                    labels: ['Bajo', 'Óptimo (Eutrés)', 'Alto', 'Excesivo (Distrés)', 'Agotamiento'],
+                    datasets: [{
+                        label: 'Nivel de Rendimiento',
+                        data: [30, 85, 90, 60, 20],
+                        borderColor: performanceAccent,
+                        backgroundColor: 'rgba(0, 63, 92, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: stressAccent,
+                        pointRadius: 5
+                    }]
+                };
+                new Chart(document.getElementById('lineChart'), {
+                    type: 'line',
+                    data: lineData,
+                    options: {
+                        maintainAspectRatio: false,
+                        ...tooltipTitleCallback,
+                        plugins: {
+                            legend: { display: false },
+                            ...tooltipTitleCallback.plugins
+                        },
+                        scales: {
+                            y: {
+                                title: { display: true, text: 'Rendimiento / Desempeño' },
+                                min: 0,
+                                max: 100
+                            },
+                            x: {
+                                title: { display: true, text: 'Nivel de Estrés / Activación' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const donutOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, padding: 15 }
+                    },
+                    ...tooltipTitleCallback.plugins
+                }
+            };
+
+            if (document.getElementById('donutSleep')) {
+                new Chart(document.getElementById('donutSleep'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Mal Sueño', 'Sueño Regular', 'Buen Sueño'],
+                        datasets: [{
+                            data: [48, 30, 22],
+                            backgroundColor: [brilliantBlues[3], brilliantBlues[1], brilliantBlues[0]]
+                        }]
+                    },
+                    options: donutOptions
+                });
+            }
+
+            if (document.getElementById('donutMental')) {
+                new Chart(document.getElementById('donutMental'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Reporta Ansiedad', 'Reporta Depresión', 'Sin Síntomas'],
+                        datasets: [{
+                            data: [55, 20, 25],
+                            backgroundColor: [brilliantBlues[4], brilliantBlues[2], brilliantBlues[0]]
+                        }]
+                    },
+                    options: donutOptions
+                });
+            }
+
+            if (document.getElementById('donutAttendance')) {
+                new Chart(document.getElementById('donutAttendance'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Falta Frecuentemente', 'Falta Ocasionalmente', 'Asistencia Completa'],
+                        datasets: [{
+                            data: [28, 40, 32],
+                            backgroundColor: [brilliantBlues[3], brilliantBlues[1], brilliantBlues[0]]
+                        }]
+                    },
+                    options: donutOptions
+                });
+            }
+        });
+    </script>
+</body>
+</html>
