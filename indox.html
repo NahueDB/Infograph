@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Caso Semmelweis: Línea de Tiempo</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            background-attachment: fixed;
+        }
+
+        /* Partículas de fondo animadas */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(96, 165, 250, 0.3);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Estilo para la línea vertical de la infografía con gradiente */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                #ef4444 0%, 
+                #6366f1 20%, 
+                #06b6d4 40%, 
+                #10b981 60%, 
+                #3b82f6 80%, 
+                #8b5cf6 100%
+            );
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+        }
+
+        /* Animaciones de entrada */
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .timeline-item {
+            animation: slideInRight 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            animation: slideInLeft 0.6s ease-out forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
+        .timeline-item:nth-child(8) { animation-delay: 0.8s; }
+        .timeline-item:nth-child(9) { animation-delay: 0.9s; }
+        .timeline-item:nth-child(10) { animation-delay: 1s; }
+
+        .timeline-icon {
+            animation: scaleIn 0.5s ease-out forwards;
+            opacity: 0;
+            box-shadow: 0 0 30px currentColor;
+        }
+
+        .timeline-icon:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-icon:nth-child(2) { animation-delay: 0.2s; }
+
+        /* Efecto de brillo en las tarjetas */
+        .card {
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.03),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Gradientes personalizados para cada tarjeta */
+        .bg-gradient-red {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(127, 29, 29, 0.15) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .bg-gradient-gray {
+            background: linear-gradient(135deg, rgba(75, 85, 99, 0.15) 0%, rgba(31, 41, 55, 0.15) 100%);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+        }
+
+        .bg-gradient-yellow {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(113, 63, 18, 0.15) 100%);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+        }
+
+        .bg-gradient-cyan {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(8, 145, 178, 0.15) 100%);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .bg-gradient-green {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .bg-gradient-blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(29, 78, 216, 0.15) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        /* Efecto de texto con gradiente */
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Ajuste para pantallas pequeñas (móviles) */
+        @media (max-width: 768px) {
+            .timeline-container::before {
+                left: 1.25rem;
+                transform: translateX(0);
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 3.5rem;
+                padding-right: 0.5rem;
+            }
+            .timeline-item:nth-child(even) {
+                padding-left: 3.5rem;
+                padding-right: 0.5rem;
+            }
+            .timeline-item > div {
+                text-align: left;
+            }
+            .timeline-item .timeline-icon {
+                left: 1.25rem;
+            }
+        }
+
+        /* Efecto de pulso en iconos */
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px currentColor;
+            }
+            50% {
+                box-shadow: 0 0 40px currentColor, 0 0 60px currentColor;
+            }
+        }
+
+        .timeline-icon {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="text-white antialiased p-4 md:p-8 min-h-screen relative overflow-x-hidden">
+    
+    <!-- Partículas de fondo -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 16s;"></div>
+    </div>
+
+    <div class="max-w-5xl mx-auto relative z-10">
+        <!-- Título -->
+        <header class="text-center mb-16 md:mb-20">
+            <div class="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full border border-cyan-500/30">
+                <span class="text-sm md:text-base font-semibold text-cyan-300">
+                    <i class="fas fa-microscope mr-2"></i>Historia de la Medicina
+                </span>
+            </div>
+            <h1 class="text-4xl md:text-7xl font-bold gradient-text mb-4 tracking-tight">
+                El Caso Semmelweis
+            </h1>
+            <p class="text-lg md:text-2xl text-gray-300 font-light max-w-3xl mx-auto">
+                Una línea de tiempo del <span class="text-cyan-400 font-semibold">Método Hipotético-Deductivo</span> en acción
+            </p>
+            <div class="mt-6 flex items-center justify-center gap-4 text-sm text-gray-400">
+                <span><i class="fas fa-calendar-alt mr-2"></i>Viena, 1840s</span>
+                <span>•</span>
+                <span><i class="fas fa-user-md mr-2"></i>Dr. Ignaz Semmelweis</span>
+            </div>
+        </header>
+
+        <!-- Contenedor de la Línea de Tiempo -->
+        <div class="relative timeline-container py-12 md:py-16">
+
+            <!-- 1. El Problema -->
+            <div class="timeline-item relative md:w-1/2 md:pr-10 md:ml-auto md:text-right mb-16 md:mb-20">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-1/2 top-1 w-14 h-14 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-question text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-red p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-red-400 bg-red-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 1</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">El Problema</h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg">¿Por qué mueren <span class="text-red-400 font-semibold">5 veces más mujeres</span> por fiebre puerperal en la División 1 (médicos) que en la División 2 (comadronas)?</p>
+                </div>
+            </div>
+
+            <!-- 2. Refutación por Observación -->
+            <div class="timeline-item relative md:w-1/2 md:pl-10 mb-16 md:mb-20">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-0 top-1 w-14 h-14 bg-gradient-to-br from-gray-500 to-gray-700 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-times text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-gray p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-gray-400 bg-gray-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 2</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">Refutación (Observación)</h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg">Descarta hipótesis previas: No son las <span class="text-gray-300 font-semibold">"influencias epidémicas"</span> (afectarían a ambas), ni el <span class="text-gray-300 font-semibold">"hacinamiento"</span> (peor en Div. 2), ni la <span class="text-gray-300 font-semibold">"dieta"</span>.</p>
+                </div>
+            </div>
+
+            <!-- 3. Refutación por Experimento (Sacerdote) -->
+            <div class="timeline-item relative md:w-1/2 md:pr-10 md:ml-auto md:text-right mb-16 md:mb-20">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-1/2 top-1 w-14 h-14 bg-gradient-to-br from-gray-500 to-gray-700 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-bell-slash text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-gray p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-gray-400 bg-gray-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 3</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">Refutación (Experimento)</h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg">Pone a prueba la H. del <span class="text-gray-300 font-semibold">"sacerdote"</span>: Cambia la ruta y quita la campanilla.</p>
+                    <div class="mt-4 pt-4 border-t border-gray-600/30">
+                        <strong class="text-red-400 font-semibold"><i class="fas fa-times-circle mr-2"></i>Resultado:</strong> 
+                        <span class="text-gray-200">La mortalidad no cambia. Hipótesis refutada.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Refutación por Experimento (Posición) -->
+            <div class="timeline-item relative md:w-1/2 md:pl-10 mb-16 md:mb-20">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-0 top-1 w-14 h-14 bg-gradient-to-br from-gray-500 to-gray-700 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-bed text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-gray p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-gray-400 bg-gray-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 4</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">Refutación (Experimento)</h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg">Pone a prueba la H. de la <span class="text-gray-300 font-semibold">"posición"</span>: Pide a las pacientes de la Div. 1 que se acuesten de lado.</p>
+                    <div class="mt-4 pt-4 border-t border-gray-600/30">
+                        <strong class="text-red-400 font-semibold"><i class="fas fa-times-circle mr-2"></i>Resultado:</strong> 
+                        <span class="text-gray-200">La mortalidad no cambia. Hipótesis refutada.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. La Pista -->
+            <div class="timeline-item relative md:w-1/2 md:pr-10 md:ml-auto md:text-right mb-16 md:mb-20">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-1/2 top-1 w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-lightbulb text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-yellow p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-yellow-400 bg-yellow-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 5</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
+                        <i class="fas fa-star mr-2 text-yellow-400"></i>La Pista (1847)
+                    </h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg">Un colega (Kolletschka) muere con síntomas idénticos a la fiebre puerperal tras cortarse con un bisturí usado en una autopsia.</p>
+                </div>
+            </div>
+
+            <!-- 6. Hipótesis Principal -->
+            <div class="timeline-item relative md:w-1/2 md:pl-10 mb-16 md:mb-20">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-0 top-1 w-14 h-14 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-brain text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-cyan p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-cyan-400 bg-cyan-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 6</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">Hipótesis Principal</h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg">La <span class="text-cyan-300 font-semibold">"materia cadavérica"</span> de la sala de autopsias es transportada en las manos de los médicos y estudiantes a las pacientes de la División 1.</p>
+                </div>
+            </div>
+
+            <!-- 7. Deducción -->
+            <div class="timeline-item relative md:w-1/2 md:pr-10 md:ml-auto md:text-right mb-16 md:mb-20">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-1/2 top-1 w-14 h-14 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-vial text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-cyan p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-cyan-400 bg-cyan-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 7</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">Deducción</h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg"><span class="text-cyan-300 font-semibold">Si</span> la hipótesis es correcta, <span class="text-cyan-300 font-semibold">entonces</span> destruir químicamente la materia cadavérica de las manos antes de tocar a las pacientes prevendrá la enfermedad.</p>
+                </div>
+            </div>
+
+            <!-- 8. Experimento Decisivo -->
+            <div class="timeline-item relative md:w-1/2 md:pl-10 mb-16 md:mb-20">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-0 top-1 w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-hands-wash text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-green p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-green-400 bg-green-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 8</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">Experimento Decisivo</h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg">Semmelweis ordena a todo el personal médico lavarse las manos con una solución de <span class="text-green-300 font-semibold">cal clorurada</span> después de las autopsias y antes de atender a las pacientes.</p>
+                </div>
+            </div>
+
+            <!-- 9. Resultado -->
+            <div class="timeline-item relative md:w-1/2 md:pr-10 md:ml-auto md:text-right mb-16 md:mb-20">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-1/2 top-1 w-14 h-14 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-chart-line text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-green p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-green-400 bg-green-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 9</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
+                        <i class="fas fa-trophy mr-2 text-yellow-400"></i>Resultado (1848)
+                    </h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg mb-4">¡Éxito! La mortalidad en la División 1 cae drásticamente, igualando e incluso mejorando la tasa de la División 2.</p>
+                    <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-4 mt-4">
+                        <div class="flex items-center justify-center md:justify-end gap-4 text-lg">
+                            <div class="text-center">
+                                <div class="text-red-400 font-bold text-2xl">11.4%</div>
+                                <div class="text-xs text-gray-400">Antes</div>
+                            </div>
+                            <i class="fas fa-arrow-right text-green-400"></i>
+                            <div class="text-center">
+                                <div class="text-green-400 font-bold text-2xl">1.27%</div>
+                                <div class="text-xs text-gray-400">Después</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Ampliación -->
+            <div class="timeline-item relative md:w-1/2 md:pl-10 mb-8">
+                <div class="timeline-icon absolute left-1/2 -translate-x-1/2 md:left-0 top-1 w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center ring-8 ring-gray-900/50">
+                    <i class="fas fa-sync-alt text-2xl text-white"></i>
+                </div>
+                <div class="card bg-gradient-blue p-7 md:p-8 rounded-2xl shadow-2xl">
+                    <span class="inline-block text-xs font-bold text-blue-400 bg-blue-500/20 px-3 py-1 rounded-full mb-3 tracking-wider">PASO 10</span>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">Ampliación de la H.</h3>
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg">Tras otros casos, Semmelweis concluye que no solo es la "materia cadavérica", sino cualquier <span class="text-blue-300 font-semibold">"materia pútrida de organismos vivos"</span>.</p>
+                </div>
+            </div>
+
+        </div> <!-- Fin de la línea de tiempo -->
+        
+        <!-- Footer -->
+        <footer class="text-center mt-16 mb-8 pt-8 border-t border-gray-700/50">
+            <p class="text-gray-400 text-sm">
+                <i class="fas fa-graduation-cap mr-2"></i>
+                Infografía educativa sobre el Método Científico
+            </p>
+        </footer>
+    </div>
+
+</body>
+</html>
